@@ -1,4 +1,4 @@
-header <- dashboardHeader(title = "Statistics Project",
+header <- dashboardHeader(title = "Projeto de Estatística",
                           dropdownMenu(type = "message",
                                        messageItem(
                                          from = "Yves Emmanuel",
@@ -11,9 +11,9 @@ header <- dashboardHeader(title = "Statistics Project",
 sidebar <- dashboardSidebar(
   sidebarMenu(
     
-    menuItem("Metricas", tabName = "estatistica", icon = icon("calculator")),
-    menuItem('Comparacao', tabName = "comparar_medidas", icon = icon("chart-bar")),
-    menuItem("Git Repository", icon = icon("github"), href = "https://github.com/yvesemmanuel/r_project")
+    menuItem("Métricas", tabName = "estatistica", icon = icon("calculator")),
+    menuItem('Comparação', tabName = "comparar_medidas", icon = icon("chart-bar")),
+    menuItem("Repositório Git", icon = icon("github"), href = "https://github.com/yvesemmanuel/r_project")
     
     )
   )
@@ -24,7 +24,7 @@ body <- dashboardBody(
     tabItem(tabName = "estatistica",
             
             fluidRow(
-              box(title = "Selecione suas opcoes::", width = 12, solidHeader = TRUE, status = "primary",
+              box(title = "Selecione suas opções:", width = 12, solidHeader = TRUE, status = "primary",
                   selectInput("medida", "Medidas", medidas_climaticas, multiple = FALSE),
                   uiOutput("data"),
                   actionButton("submeter", "Submit")
@@ -32,19 +32,29 @@ body <- dashboardBody(
               ),
             
             fluidRow(
-              box(title = "Informacoes sobre a medida selecionada:", width = 12, solidHeader = TRUE, status = "primary",
+              box(title = "Informações sobre a medida selecionada:", width = 12, solidHeader = TRUE, status = "primary",
                   DTOutput("info"))
             ),
             
             fluidRow(
-              box(title = "Grafico de Linhas", width = 12, solidHeader = TRUE, status = "primary",
-                  plotOutput("sh"))
+              box(title = "Gráfico em Linha", width = 12, solidHeader = TRUE, status = "primary",
+                  plotOutput("grafico_linha"))
+            ),
+            
+            fluidRow(
+              box(title = "Histograma", width = 12, solidHeader = TRUE, status = "primary",
+                  plotOutput("histograma"))
+            ),
+            
+            fluidRow(
+              box(title = "Boxplot", width = 12, solidHeader = TRUE, status = "primary",
+                  plotOutput("boxplot"))
             )
             
             ),
     tabItem(tabName = "comparar_medidas",
             fluidRow(
-              box(title = "Selecione suas 2 opcoes:", width = 12, solidHeader = TRUE, status = "primary",
+              box(title = "Selecione suas 2 opções:", width = 12, solidHeader = TRUE, status = "primary",
                   selectizeInput("medidas_comparadas", "Medidas", medidas_climaticas, multiple = TRUE, options = list(maxItems = 2)),
                   uiOutput("tempos_comparacao"),
                   actionButton("submeter_comparacao", "Submit")

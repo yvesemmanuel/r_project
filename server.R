@@ -35,23 +35,23 @@ server <- function(input, output){
     
     info_datatable <- eventReactive(input$submeter, {
         df <- classe_selecionada()
-        Medida <- input$medida
-        
-        lista_classe <- pull(df, Medida)
-        
-        Media <- mean(lista_classe, na.rm = TRUE)
-        Moda <- getmode(lista_classe)
-        Mediana <- median(lista_classe, na.rm = TRUE)
-        DesvioPadrao <- sd(lista_classe, na.rm = TRUE)
-        ValorMaximo <- max(lista_classe, na.rm = TRUE)
-        ValorMinimo <- min(lista_classe, na.rm = TRUE)
-        
-        df_tb <- data.frame(Medida, Media, Moda, Mediana, DesvioPadrao, ValorMaximo, ValorMinimo)
-        
+        medida_selecionada <- input$medida
+
+        lista_classe <- pull(df, medida_selecionada)
+
+        média <- mean(lista_classe, na.rm = TRUE)
+        moda <- getmode(lista_classe)
+        mediana <- median(lista_classe, na.rm = TRUE)
+        desvio_padrão <- sd(lista_classe, na.rm = TRUE)
+        valor_máximo <- max(lista_classe, na.rm = TRUE)
+        valor_mínimo <- min(lista_classe, na.rm = TRUE)
+
+        df_tb <- data.frame(medida_selecionada, média, moda, mediana, desvio_padrão, valor_máximo, valor_mínimo)
+
         df_tb <- as.data.frame(t(df_tb))
-        
+
         return(df_tb)
-        
+
     })
     
     output$info <- renderDT({
@@ -62,28 +62,46 @@ server <- function(input, output){
                     url = "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
                 )
             ))
-        
     })
     
-    output$sh <- renderPlot({
+    output$grafico_linha <- renderPlot({
         df <- classe_selecionada()
-        Medida <- input$medida
+        medida_selecionada <- input$medida
     
-        lista_classe <- pull(df, Medida)
-        
+        lista_classe <- pull(df, medida_selecionada)
         valor_minimo <- min(lista_classe)
         valor_maximo <- max(lista_classe)
         
         df$date <- ymd(df$date)
         grafico <- df %>%
-            ggplot(aes(date, mean_temperature, group = 1)) +
-            geom_path() +
-            ylab("Grafico da Serie") +
+            ggplot(aes(date, lista_classe, group = 1)) +
+            geom_line() +
+            ylab("Gráfico da Série") +
             coord_cartesian(ylim = c(valor_minimo, valor_maximo)) +
             theme_bw() +
             scale_x_date(date_labels = "%Y-%m-%d")
         
         grafico
     })
+    
+    
+    output$histograma <- renderPlot({
+        df <- classe_selecionada()
+        medida_selecionada <- input$medida
+        
+        frequências <- pull(df, medida_selecionada)
+
+        grafico <- df %>%
+            ggplot(aes(frequências)) +
+            geom_histogram() +
+            ylab("Histograma") +
+            theme_bw()
+        
+        grafico
+    })
+    
+    
+    
+
     
     }
