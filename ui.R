@@ -37,7 +37,7 @@ body <- dashboardBody(
             ),
             
             fluidRow(
-              box(title = "Serie da medida:", width = 12, solidHeader = TRUE,
+              box(title = "Grafico de Linhas", width = 12, solidHeader = TRUE, status = "primary",
                   plotOutput("sh"))
             )
             
