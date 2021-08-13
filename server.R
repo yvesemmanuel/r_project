@@ -74,7 +74,6 @@ server <- function(input, output){
         grafico <- df %>%
             ggplot(aes(date, lista_classe, group = 1)) +
             geom_line() +
-            ylab("Gráfico da Série") +
             coord_cartesian(ylim = c(valor_minimo, valor_maximo)) +
             theme_bw() +
             scale_x_date(date_labels = "%Y-%m-%d")
@@ -92,7 +91,20 @@ server <- function(input, output){
         grafico <- df %>%
             ggplot(aes(frequencias)) +
             geom_histogram() +
-            ylab("Histograma") +
+            theme_bw()
+        
+        grafico
+    })
+    
+    output$boxplot <- renderPlot({
+        df <- classe_selecionada()
+        medida_selecionada <- input$medida
+        
+        valores <- pull(df, medida_selecionada)
+        
+        grafico <- df %>%
+            ggplot(aes(valores)) +
+            geom_boxplot() +
             theme_bw()
         
         grafico

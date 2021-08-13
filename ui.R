@@ -47,7 +47,7 @@ body <- dashboardBody(
             ),
             
             fluidRow(
-              box(title = "Boxplot", width = 12, solidHeader = TRUE, status = "primary",
+              box(title = "Box plot", width = 12, solidHeader = TRUE, status = "primary",
                   plotOutput("boxplot"))
             )
             
