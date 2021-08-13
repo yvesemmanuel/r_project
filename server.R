@@ -7,7 +7,7 @@ server <- function(input, output){
         
         dataframe_selecionado <- dados %>% select("date", medida_selecionada) %>% filter(date >= intervalo_tempo[1] & date <= intervalo_tempo[2])
         
-        return(dataframe_selecionado)
+        return (dataframe_selecionado)
     })
     
     output$data <- renderUI({
@@ -36,21 +36,19 @@ server <- function(input, output){
     info_datatable <- eventReactive(input$submeter, {
         df <- classe_selecionada()
         medida_selecionada <- input$medida
-
         lista_classe <- pull(df, medida_selecionada)
 
-        média <- mean(lista_classe, na.rm = TRUE)
+        media <- mean(lista_classe, na.rm = TRUE)
         moda <- getmode(lista_classe)
         mediana <- median(lista_classe, na.rm = TRUE)
-        desvio_padrão <- sd(lista_classe, na.rm = TRUE)
-        valor_máximo <- max(lista_classe, na.rm = TRUE)
-        valor_mínimo <- min(lista_classe, na.rm = TRUE)
+        desvio_padrao <- sd(lista_classe, na.rm = TRUE)
+        valor_maximo <- max(lista_classe, na.rm = TRUE)
+        valor_minimo <- min(lista_classe, na.rm = TRUE)
 
-        df_tb <- data.frame(medida_selecionada, média, moda, mediana, desvio_padrão, valor_máximo, valor_mínimo)
-
+        df_tb <- data.frame(medida_selecionada, media, moda, mediana, desvio_padrao, valor_maximo, valor_minimo)
         df_tb <- as.data.frame(t(df_tb))
 
-        return(df_tb)
+        return (df_tb)
 
     })
     
@@ -67,8 +65,8 @@ server <- function(input, output){
     output$grafico_linha <- renderPlot({
         df <- classe_selecionada()
         medida_selecionada <- input$medida
-    
         lista_classe <- pull(df, medida_selecionada)
+        
         valor_minimo <- min(lista_classe)
         valor_maximo <- max(lista_classe)
         
@@ -89,10 +87,10 @@ server <- function(input, output){
         df <- classe_selecionada()
         medida_selecionada <- input$medida
         
-        frequências <- pull(df, medida_selecionada)
+        frequencias <- pull(df, medida_selecionada)
 
         grafico <- df %>%
-            ggplot(aes(frequências)) +
+            ggplot(aes(frequencias)) +
             geom_histogram() +
             ylab("Histograma") +
             theme_bw()
@@ -101,7 +99,5 @@ server <- function(input, output){
     })
     
     
-    
-
     
     }
