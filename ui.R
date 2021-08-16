@@ -1,10 +1,20 @@
-header <- dashboardHeader(title = "Projeto de Estatística",
+header <- dashboardHeader(title = "Statistics Project",
                           dropdownMenu(type = "message",
                                        messageItem(
                                          from = "Yves Emmanuel",
                                          message = "Bem vindo ao nosso dashboard!",
                                          icon = icon("laugh-wink")
-                                         )
+                                         ),
+                                       messageItem(
+                                         from = "David Londres",
+                                         message = "Agradeçemos sua atenção!",
+                                         icon = icon("handshake-o")
+                                       ),
+                                       messageItem(
+                                         from = "Eduardo Geber",
+                                         message = "Volte sempre!",
+                                         icon = icon("mail-reply")
+                                       )
                                        )
                           )
 
@@ -24,30 +34,29 @@ body <- dashboardBody(
     tabItem(tabName = "estatistica",
             
             fluidRow(
-              box(title = "Selecione suas opções:", width = 12, solidHeader = TRUE, status = "primary",
-                  selectInput("medida", "Medidas", medidas_climaticas, multiple = FALSE),
+              box(title = "Selecione suas opcões:", width = 12, solidHeader = TRUE, status = "primary",
+                  selectInput("medida", "Classe a ser analisada", medidas_climaticas, multiple = FALSE),
                   uiOutput("data"),
-                  actionButton("submeter", "Submit")
+                  actionButton("submeter", "Submeter")
                   )
               ),
             
             fluidRow(
-              box(title = "Informações sobre a medida selecionada:", width = 12, solidHeader = TRUE, status = "primary",
+              box(title = "Informações sobre a classe selecionada:", width = 12, solidHeader = TRUE, status = "primary",
                   DTOutput("info"))
             ),
             
             fluidRow(
-              box(title = "Gráfico em Linha", width = 12, solidHeader = TRUE, status = "primary",
-                  plotOutput("grafico_linha"))
+              box(title = "Série da classe:", width = 12, solidHeader = TRUE,
+                  plotOutput("sh"))
             ),
-            
             fluidRow(
               box(title = "Histograma", width = 12, solidHeader = TRUE, status = "primary",
                   plotOutput("histograma"))
             ),
             
             fluidRow(
-              box(title = "Box plot", width = 12, solidHeader = TRUE, status = "primary",
+              box(title = "Boxplot", width = 12, solidHeader = TRUE, status = "primary",
                   plotOutput("boxplot"))
             )
             
@@ -56,13 +65,37 @@ body <- dashboardBody(
             fluidRow(
               box(title = "Selecione suas 2 opções:", width = 12, solidHeader = TRUE, status = "primary",
                   selectizeInput("medidas_comparadas", "Medidas", medidas_climaticas, multiple = TRUE, options = list(maxItems = 2)),
-                  uiOutput("tempos_comparacao"),
-                  actionButton("submeter_comparacao", "Submit")
-                  )
-            ))
+                  uiOutput("datas_comparacao"),
+                  actionButton("submeter_comparacao", "Submeter")
+                  ),
+              ),
+              
+              fluidRow(
+                box(title = "Tabela de correlação", width = 12, solidHeader = TRUE, status = "primary",
+                    DTOutput("corr_table"))
+                 ),
+            
+              fluidRow(
+                box(title = "Gráfico das séries", width = 12, solidHeader = TRUE, status = "primary",
+                    plotOutput("series_graph"))
+              ),
+            
+              fluidRow(
+                box(title = "Gráfico das médias", width = 12, solidHeader = TRUE, status = "primary",
+                    plotOutput("averages_graph"))
+              ),
+            
+              fluidRow(
+                box(title = "Scatterplot das séries", width = 12, solidHeader = TRUE, status = "primary",
+                    plotOutput("scatter"))
+              ),
+            
+              
+            )
     
-    )
+      ),
   )
+  
 
 ui <- dashboardPage(
     skin = "blue",
