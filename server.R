@@ -197,9 +197,11 @@ server <- function(input, output){
         
         grafico <- df %>%
             ggplot(aes(date)) +
+            ylab(paste(paste(medidas_selecionadas[1], " (preto)"), paste(medidas_selecionadas[2], " (azul)"), sep = "   -   ")) +
             geom_line(aes(y = medida1), color = "blue") +
-            geom_line(aes(y = medida2), color = "black") 
-
+            geom_line(aes(y = medida2), color = "black") +
+            theme_bw()
+        
         grafico
     })
     
