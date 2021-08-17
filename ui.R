@@ -80,6 +80,11 @@ body <- dashboardBody(
                  ),
             
               fluidRow(
+                box(title = "Regressão Linear", width = 12, solidHeader = TRUE, status = "primary",
+                    plotOutput("regressao"))
+                ),
+            
+              fluidRow(
                 box(title = "Gráfico das séries", width = 12, solidHeader = TRUE, status = "primary",
                     plotOutput("grafico_linha2"))
               ),

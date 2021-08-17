@@ -61,7 +61,6 @@ server <- function(input, output){
                     url = "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
                 )
             ))
-        
     })
     
     output$grafico_linha <- renderPlot({
@@ -153,9 +152,13 @@ server <- function(input, output){
         medida1 <- pull(df, medidas_selecionadas[1])
         medida2 <- pull(df, medidas_selecionadas[2])
         
-        correlacao <- cor(medida2, medida1, method = "pearson", use = "complete.obs")
+        Pearson <- cor(medida1, medida2, method = "pearson", use = "complete.obs")
+        Kendall <- cor(medida1, medida2, method = "kendall", use = "complete.obs")
+        Spearman <- cor(medida1, medida2, method = "spearman", use = "complete.obs")
         
-        return (correlacao)
+        df <- data.frame(Pearson, Kendall, Spearman)
+        df <- as.data.frame(t(df))
+        return (df)
     })
 
     output$tabela_correlacao <- renderDT({
@@ -166,6 +169,25 @@ server <- function(input, output){
                     url = "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
                 )
             ))
+    })
+    
+    output$regressao <- renderPlot({
+        df <- classes_selecionadas2()
+        medidas_selecionadas <- input$medidas_comparadas
+        
+        medida1 <- pull(df, medidas_selecionadas[1])
+        medida2 <- pull(df, medidas_selecionadas[2])
+        
+        regressao_linear <- df %>%
+            ggplot(aes(x = medida1, y = medida2)) +
+            xlab(medidas_selecionadas[1]) +
+            ylab(medidas_selecionadas[2]) +
+            geom_point() +
+            geom_smooth(method = "lm") +
+            theme_bw()
+        
+        regressao_linear
+        
     })
     
     output$scatterplot <- renderPlot({
